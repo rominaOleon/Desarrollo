@@ -1,63 +1,81 @@
+       var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
+        var VALIDURL    =   'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
+        var SCOPE       =   'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+        var CLIENTID    =   '35260386077-mstd0jpd7694ombabpjrjegmfaf9tjeb.apps.googleusercontent.com';
+        var REDIRECT    =   'https://localhost:8080/ProyectoDesarrollo/'
+        var LOGOUT      =   'http://accounts.google.com/Logout';
+        var TYPE        =   'token';
+        var _url        =   OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
+        var acToken;
+        var tokenType;
+        var expiresIn;
+        var user;
+        var loggedIn    =   false;
 
-      // Enter a client ID for a web application from the Google Developer Console.
-      // The provided clientId will only work if the sample is run directly from
-      // https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
-      // In your Developer Console project, add a JavaScript origin that corresponds to the domain
-      // where you will be running the script.
-      var clientId = '837050751313';
+        function login() {
+            var win         =   window.open(_url, "windowname1", 'width=800, height=600'); 
 
-      // Enter the API key from the Google Develoepr Console - to handle any unauthenticated
-      // requests in the code.
-      // The provided key works for this sample only when run from
-      // https://google-api-javascript-client.googlecode.com/hg/samples/authSample.html
-      // To use in your own application, replace this API key with your own.
-      var apiKey = 'AIzaSyAMfQVrKeES_SFScGKYijXmAnaDDpbFT1o';
+            var pollTimer   =   window.setInterval(function() { 
+                try {
+                    console.log(win.document.URL);
+                    if (win.document.URL.indexOf(REDIRECT) != -1) {
+                        window.clearInterval(pollTimer);
+                        var url =   win.document.URL;
+                        acToken =   gup(url, 'access_token');
+                        tokenType = gup(url, 'token_type');
+                        expiresIn = gup(url, 'expires_in');
+                        win.close();
 
-      // To enter one or more authentication scopes, refer to the documentation for the API.
-      var scopes = 'https://www.googleapis.com/auth/plus.me';
-
-      // Use a button to handle authentication the first time.
-      function handleClientLoad() {
-        gapi.client.setApiKey(apiKey);
-        window.setTimeout(checkAuth,1);
-      }
-
-      function checkAuth() {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: true}, handleAuthResult);
-      }
-
-
-      function handleAuthResult(authResult) {
-        var authorizeButton = document.getElementById('authorize-button');
-        if (authResult && !authResult.error) {
-          authorizeButton.style.visibility = 'hidden';
-          makeApiCall();
-        } else {
-          authorizeButton.style.visibility = '';
-          authorizeButton.onclick = handleAuthClick;
+                        validateToken(acToken);
+                    }
+                } catch(e) {
+                }
+            }, 500);
         }
-      }
 
-      function handleAuthClick(event) {
-        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthResult);
-        return false;
-      }
+        function validateToken(token) {
+            $.ajax({
+                url: VALIDURL + token,
+                data: null,
+                success: function(responseText){  
+                    getUserInfo();
+                    loggedIn = true;
+                    $('#loginText').hide();
+                    $('#logoutText').show();
+                },  
+                dataType: "jsonp"  
+            });
+        }
 
-      // Load the API and make an API call.  Display the results on the screen.
-      function makeApiCall() {
-        gapi.client.load('plus', 'v1', function() {
-          var request = gapi.client.plus.people.get({
-            'userId': 'me'
-          });
-          request.execute(function(resp) {
-            var heading = document.createElement('h4');
-            var image = document.createElement('img');
-            image.src = resp.image.url;
-            heading.appendChild(image);
-            heading.appendChild(document.createTextNode(resp.displayName));
+        function getUserInfo() {
+            $.ajax({
+                url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + acToken,
+                data: null,
+                success: function(resp) {
+                    user    =   resp;
+                    console.log(user);
+                    $('#uName').text('Welcome ' + user.name);
+                    $('#imgHolder').attr('src', user.picture);
+                },
+                dataType: "jsonp"
+            });
+        }
 
-            document.getElementById('content').appendChild(heading);
-          });
-        });
-      }
-  
+        function gup(url, name) {
+            name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+            var regexS = "[\\#&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( url );
+            if( results == null )
+                return "";
+            else
+                return results[1];
+        }
+
+        function startLogoutPolling() {
+            $('#loginText').show();
+            $('#logoutText').hide();
+            loggedIn = false;
+            $('#uName').text('Welcome ');
+            $('#imgHolder').attr('src', 'none.jpg');
+        }

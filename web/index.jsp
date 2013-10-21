@@ -31,6 +31,12 @@
 
     <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
 
+       <a href='#' onClick='login();' id="loginText"'> Iniciar Sesion con Google </a>
+    <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
+    <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
+    <div id='uName'></div>
+    <img src='' id='imgHolder'/>
+    
 
 </body>
 </html>
