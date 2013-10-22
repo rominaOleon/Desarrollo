@@ -24,11 +24,13 @@
 
         <SCRIPT Language=Javascript SRC="loginFace.js"><!--
 //--></SCRIPT>
+        
+        <fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button>
 
         <SCRIPT Language=Javascript SRC="loginGoogle.js"><!--
 //--></SCRIPT>
 
-    <fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button>
+    
 
        <a href='#' onClick='login();' id="loginText"'> Iniciar Sesion con Google </a>
     <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>

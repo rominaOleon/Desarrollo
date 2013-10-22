@@ -1,11 +1,13 @@
-window.fbAsyncInit = function() {
+  window.fbAsyncInit = function() {
   FB.init({
     appId      : '171611049700442', // App ID
-    channelUrl : 'http://localhost:8080/ProyectoDesarrollo/', // Channel File
+    channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
     status     : true, // check login status
     cookie     : true, // enable cookies to allow the server to access the session
     xfbml      : true  // parse XFBML
   });
+  
+
 
   // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
   // for any authentication related change, such as login, logout or session refresh. This means that
@@ -17,7 +19,20 @@ window.fbAsyncInit = function() {
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-      testAPI();
+     alert("Se encuentra Conectado a la Aplicacion");
+                          FB.api('/me', function(response) {
+  var id= response.id;
+   var nombreFace= response.first_name;
+   var apellidoFace=response.last_name;
+   var foto = response.picture;
+   alert("Bienvenido " + response.name + " a la red Social ");
+});
+
+
+   
+   
+ 
+    
     } else if (response.status === 'not_authorized') {
       // In this case, the person is logged into Facebook, but not into the app, so we call
       // FB.login() to prompt them to do so. 
@@ -27,6 +42,10 @@ window.fbAsyncInit = function() {
       // result from direct interaction from people using the app (such as a mouse click)
       // (2) it is a bad experience to be continually prompted to login upon page load.
       FB.login();
+      alert("Incorrecto");
+      
+      
+
     } else {
       // In this case, the person is not logged into Facebook, so we call the login() 
       // function to prompt them to do so. Note that at this stage there is no indication
@@ -34,9 +53,18 @@ window.fbAsyncInit = function() {
       // dialog right after they log in to Facebook. 
       // The same caveats as above apply to the FB.login() call here.
       FB.login();
+      alert("Bienvenido");
+      
+
+   
+
+     
     }
   });
   };
+  
+  
+
 
   // Load the SDK asynchronously
   (function(d){
@@ -50,12 +78,7 @@ window.fbAsyncInit = function() {
 
 
 
+     
   // Here we run a very simple test of the Graph API after login is successful. 
   // This testAPI() function is only called in those cases. 
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Good to see you, ' + response.name + '.');
-    });
-  }
-  
+
