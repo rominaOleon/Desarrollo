@@ -23,6 +23,7 @@
 
 
         <SCRIPT Language=Javascript SRC="loginFace.js"><!--
+ 
 //--></SCRIPT>
         
 
@@ -35,5 +36,12 @@
        <a href='#' onClick='login();' id="loginText"'> LogInGoogle </a>
          <a href='#' onClick='startLogoutPolling();' id="loginText"'> LogOutGoogle </a>
   
+         <p> <b id='nombreFace' b/> </p>
+        <p> <b id='userFace' b/> </p>
+         <p> <b id='emailFace' b/> </p>
+     
 </body>
 </html>
+
+
+  

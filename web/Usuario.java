@@ -30,9 +30,9 @@ public class Usuario {
     
       public Usuario() {
         this.id = 00;
-        this.firtName = null;
-        this.lastName = null;
-        this.email = null;
+        this.firtName = " ";
+        this.lastName = " ";
+        this.email = " ";
         this.fechaDeNacimiento = null;
         this.direccion = null;
         this.privacidad = 'o';

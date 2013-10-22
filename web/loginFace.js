@@ -20,13 +20,11 @@
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
     
-                          FB.api('/me', function(response) {
-  var id= response.id;
-   var nombreFace= response.first_name;
-   var apellidoFace=response.last_name;
-   var foto = response.picture;
-   alert("Bienvenido " + response.name + " a la red Social ");
-});
+                          FB.api('/me', function(response) {                     
+    document.getElementById("nombreFace").innerHTML= response.name;
+     document.getElementById("userFace").innerHTML= response.username;
+    document.getElementById("emailFace").innerHTML= response.email;
+},{scope: 'email'});
 
 
    
@@ -64,7 +62,6 @@
   };
   
   
-
 
   // Load the SDK asynchronously
   (function(d){
