@@ -25,6 +25,7 @@
                         tokenType = gup(url, 'token_type');
                         expiresIn = gup(url, 'expires_in');
                         win.close();
+                        
                         alert (user.name);
 
                         validateToken(acToken);
@@ -53,10 +54,11 @@
                 url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + acToken,
                 data: null,
                 success: function(resp) {
-                    alert ("Bienvenido " + user.name);
-                    console.log(user);
-                    $('#uName').text('Welcome ' + user.name);
-                    $('#imgHolder').attr('src', user.picture);
+                    var id= user.id;
+                     var nombreG= user.first_name;
+                     var apellidoG=user.last_name;
+                     var fotoG = user.picture;
+                  
                 },
                 dataType: "jsonp"
             });
@@ -76,8 +78,6 @@
 
         function startLogoutPolling() {
             loggedIn = false;
-          var win2=  window.open('http://accounts.google.com/Logout',"windowname1", 'width=800, height=600' );
-          
-            document.load();
-            win2.close();
+       var win2=window.open('http://accounts.google.com/Logout',"windowname1", 'width=800, height=600' );
+    
         }

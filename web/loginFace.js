@@ -77,7 +77,7 @@
 
 
 FB.logout(function(response) {
-setTimeout("location.reload(true);",1);
+document.load();
 });
 
 
