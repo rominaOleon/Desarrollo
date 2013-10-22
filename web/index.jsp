@@ -25,14 +25,16 @@
         <SCRIPT Language=Javascript SRC="loginFace.js"><!--
 //--></SCRIPT>
         
-        <fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button>
+        <fb:login-button show-faces="false"  width="200" max-rows="1"></fb:login-button>
 
         <SCRIPT Language=Javascript SRC="loginGoogle.js"><!--
 //--></SCRIPT>
 
     
-
-       <a href='#' onClick='login();' id="loginText"'> Iniciar Sesion con Google </a>
+        <a href='#' onClick='FB.logout();' id="loginText"'> LogOutFace  </a>
+       <a href='#' onClick='login();' id="loginText"'> LogInGoogle </a>
+         <a href='#' onClick='startLogoutPolling();' id="loginText"'> LogOutGoogle </a>
+    
     <a href="#" style="display:none" id="logoutText" target='myIFrame' onclick="myIFrame.location='https://www.google.com/accounts/Logout'; startLogoutPolling();return false;"> Click here to logout </a>
     <iframe name='myIFrame' id="myIFrame" style='display:none'></iframe>
     <div id='uName'></div>

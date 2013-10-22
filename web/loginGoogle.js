@@ -1,8 +1,8 @@
-       var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
+        var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
         var VALIDURL    =   'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
         var SCOPE       =   'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
         var CLIENTID    =   '35260386077-mstd0jpd7694ombabpjrjegmfaf9tjeb.apps.googleusercontent.com';
-        var REDIRECT    =   'https://localhost:8080/ProyectoDesarrollo/'
+        var REDIRECT    =   'http://localhost:8080/ProyectoDesarrollo/to/callback'
         var LOGOUT      =   'http://accounts.google.com/Logout';
         var TYPE        =   'token';
         var _url        =   OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
@@ -25,6 +25,7 @@
                         tokenType = gup(url, 'token_type');
                         expiresIn = gup(url, 'expires_in');
                         win.close();
+                        alert (user.name);
 
                         validateToken(acToken);
                     }
@@ -52,7 +53,7 @@
                 url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + acToken,
                 data: null,
                 success: function(resp) {
-                    user    =   resp;
+                    alert ("Bienvenido " + user.name);
                     console.log(user);
                     $('#uName').text('Welcome ' + user.name);
                     $('#imgHolder').attr('src', user.picture);
@@ -60,6 +61,7 @@
                 dataType: "jsonp"
             });
         }
+
 
         function gup(url, name) {
             name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -73,9 +75,9 @@
         }
 
         function startLogoutPolling() {
-            $('#loginText').show();
-            $('#logoutText').hide();
             loggedIn = false;
-            $('#uName').text('Welcome ');
-            $('#imgHolder').attr('src', 'none.jpg');
+          var win2=  window.open('http://accounts.google.com/Logout',"windowname1", 'width=800, height=600' );
+          
+            document.load();
+            win2.close();
         }

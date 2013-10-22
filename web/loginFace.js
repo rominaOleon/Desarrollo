@@ -19,7 +19,7 @@
       // The response object is returned with a status field that lets the app know the current
       // login status of the person. In this case, we're handling the situation where they 
       // have logged in to the app.
-     alert("Se encuentra Conectado a la Aplicacion");
+    
                           FB.api('/me', function(response) {
   var id= response.id;
    var nombreFace= response.first_name;
@@ -53,7 +53,7 @@
       // dialog right after they log in to Facebook. 
       // The same caveats as above apply to the FB.login() call here.
       FB.login();
-      alert("Bienvenido");
+
       
 
    
@@ -75,6 +75,10 @@
    ref.parentNode.insertBefore(js, ref);
   }(document));
 
+
+FB.logout(function(response) {
+setTimeout("location.reload(true);",1);
+});
 
 
 
